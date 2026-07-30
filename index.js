@@ -11,6 +11,12 @@ app.get("/health", (_req, res) => {
   res.status(200).json({ healthy: true });
 });
 
+app.get("/notes", async (req, res) => {
+  const notes = await readData();
+
+  return res.status(200).json({ data: notes });
+});
+
 app.post("/notes", async (req, res) => {
   const { content } = req.body;
 
@@ -19,16 +25,16 @@ app.post("/notes", async (req, res) => {
       .status(400)
       .json({ error: { message: "The content cannot be empty" } });
 
-  const fileData = await readData();
+  const notes = await readData();
 
   const payload = {
-    id: fileData.length + 1,
+    id: notes.length + 1,
     content,
   };
 
-  fileData.push(payload);
+  notes.push(payload);
 
-  await saveToFile(fileData);
+  await saveToFile(notes);
 
   return res.status(200).json({ message: "Note saved successfully" });
 });
