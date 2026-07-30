@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/tommycontreras11/markdown-notes-api#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "marked": "^18.0.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

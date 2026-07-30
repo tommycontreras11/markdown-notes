@@ -1,5 +1,5 @@
 import express from "express";
-import { initFile, readData, saveToFile } from "./helper.js";
+import { initFile, readData, saveToFile, checkGrammar } from "./helper.js";
 
 const PORT = 3000;
 
@@ -31,6 +31,38 @@ app.post("/notes", async (req, res) => {
   await saveToFile(fileData);
 
   return res.status(200).json({ message: "Note saved successfully" });
+});
+
+app.post("/notes/check-grammar", async (req, res) => {
+  const { content } = req.body;
+
+  if (!content)
+    return res
+      .status(400)
+      .json({ error: { message: "The content cannot be empty" } });
+
+  try {
+    const result = await checkGrammar(content);
+
+    if (result.matches && result.matches.length === 0)
+      return res.status(200).json({ valid: true });
+
+    const data = result.matches.map((match) => ({
+      message: match.message,
+      shortMessage: match.shortMessage,
+      offset: match.offset,
+      length: match.length,
+      replacements: match.replacements.map((replacement) => replacement.value),
+    }));
+
+    return res.status(200).json({ valid: false, errors: data });
+  } catch (error) {
+    return res.status(503).json({
+      error: {
+        message: "Grammar service unavailable",
+      },
+    });
+  }
 });
 
 await initFile();
