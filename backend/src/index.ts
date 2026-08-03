@@ -1,5 +1,6 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { initFile, readData, saveToFile, checkGrammar } from "./helper.js";
+import { IGrammarError, INote } from "./interfaces/note.interface.js";
 
 const PORT = 3000;
 
@@ -7,22 +8,22 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.status(200).json({ healthy: true });
+app.get("/health", (_req: Request, res: Response) => {
+  return res.status(200).json({ healthy: true });
 });
 
-app.get("/notes", async (req, res) => {
+app.get("/notes", async (_req: Request, res: Response) => {
   const notes = await readData();
 
   return res.status(200).json({ data: notes });
 });
 
-app.get("/notes/render/:id", async (req, res) => {
+app.get("/notes/render/:id", async (req: Request, res: Response) => {
   const { id } = req.params
 
   const notes = await readData();
 
-  const note = notes.find((note) => note.id == +id)
+  const note = notes.find((note: INote) => note.id == +id)
 
   if(!note) return res.status(400).json({ error: { message: "Note not found" } })
 
@@ -30,7 +31,7 @@ app.get("/notes/render/:id", async (req, res) => {
 });
 
 
-app.post("/notes", async (req, res) => {
+app.post("/notes", async (req: Request, res: Response) => {
   const { content } = req.body;
 
   if (!content)
@@ -52,7 +53,7 @@ app.post("/notes", async (req, res) => {
   return res.status(200).json({ message: "Note saved successfully" });
 });
 
-app.post("/notes/check-grammar", async (req, res) => {
+app.post("/notes/check-grammar", async (req: Request, res: Response) => {
   const { content } = req.body;
 
   if (!content)
@@ -66,7 +67,7 @@ app.post("/notes/check-grammar", async (req, res) => {
     if (result.matches && result.matches.length === 0)
       return res.status(200).json({ valid: true });
 
-    const data = result.matches.map((match) => ({
+    const data = result.matches.map((match: IGrammarError) => ({
       message: match.message,
       shortMessage: match.shortMessage,
       offset: match.offset,
