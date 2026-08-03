@@ -1,4 +1,4 @@
-import { cleanMarkdown } from "../helper/string.js";
+import { cleanMarkdown } from "../../helper/string.js";
 
 export const grammarService = {
   async checkGrammar(markdown: string) {
