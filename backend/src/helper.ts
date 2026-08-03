@@ -1,8 +1,9 @@
 import fs from "node:fs/promises";
+import { INote } from "./interfaces/note.interface.js";
 
 const FILE = "notes.json";
 
-export const saveToFile = async (data) => {
+export const saveToFile = async (data: [] | INote[]) => {
   await fs.writeFile(FILE, JSON.stringify(data, null, 2), { encoding: "utf8" });
 };
 
@@ -13,14 +14,9 @@ export const readData = async () => {
     if (!data.trim()) return [];
 
     return JSON.parse(data);
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === "ENOENT") return [];
-
-    try {
-      return JSON.parse(data);
-    } catch {
-      return [];
-    }
+    throw error;
   }
 };
 
@@ -32,7 +28,7 @@ export const initFile = async () => {
   }
 };
 
-const cleanMarkdown = (markdown) => {
+const cleanMarkdown = (markdown: string) => {
   return markdown
     .replace(/```[\s\S]*?```/g, "")
     .replace(/!\[.*?\]\(.*?\)/g, "")
@@ -41,7 +37,7 @@ const cleanMarkdown = (markdown) => {
     .trim();
 };
 
-export const checkGrammar = async (markdown) => {
+export const checkGrammar = async (markdown: string) => {
   const response = await fetch(
     "https://api.languagetool.org/v2/check",
     {
