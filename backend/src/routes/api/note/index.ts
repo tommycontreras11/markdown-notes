@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { Router } from "express";
 import { noteService } from "../../../services/note/index.service.js";
+import { validateDto } from "../../../middlewares/validate-dto.middleware.js";
+import { createNoteSchema } from "../../../dtos/note.schema.js";
 
 const router = Router()
 
@@ -21,7 +23,7 @@ router.get("/render/:id", async (req: Request, res: Response) => {
 });
 
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", validateDto(createNoteSchema), async (req: Request, res: Response) => {
   const { content } = req.body;
 
   if (!content)
