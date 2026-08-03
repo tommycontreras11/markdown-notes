@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
-import { initFile, readData, saveToFile, checkGrammar } from "./helper.js";
 import { IGrammarError, INote } from "./interfaces/note.interface.js";
+import { initFile, readData, saveToFile } from "./helper/file.js";
+import { grammarService } from "./services/grammar.service.js";
 
 const PORT = 3000;
 
@@ -62,7 +63,7 @@ app.post("/notes/check-grammar", async (req: Request, res: Response) => {
       .json({ error: { message: "The content cannot be empty" } });
 
   try {
-    const result = await checkGrammar(content);
+    const result = await grammarService.checkGrammar(content);
 
     if (result.matches && result.matches.length === 0)
       return res.status(200).json({ valid: true });
