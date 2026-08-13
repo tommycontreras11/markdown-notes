@@ -14,8 +14,10 @@ export const noteService = {
   async create(content: string) {
     const notes = await this.getAll();
 
+    const lastNote = notes[notes.length - 1];
+
     const payload = {
-      id: notes.length + 1,
+      id: lastNote ? lastNote.id + 1 : 1,
       content,
     };
 
