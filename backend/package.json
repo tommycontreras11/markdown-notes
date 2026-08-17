@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/tommycontreras11/markdown-notes-api#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "marked": "^18.0.7",
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "tsx": "^4.23.5",
     "typescript": "^7.0.2"
