@@ -1,17 +1,11 @@
-import dotenv from "dotenv";
-
-dotenv.config({
-  quiet: true,
-});
-
 const required = (name: string) => {
-  const env = process.env[name];
+  const value = process.env[name];
 
-  if (!env) throw new Error(`This env variable ${name} is not defined.`);
+  if (!value) throw new Error(`This env variable ${name} is not defined.`);
 
-  return env;
+  return value;
 };
 
 export const config = {
-  API_URL: required("API_URL")
+  API_URL: required("NEXT_PUBLIC_API_URL")
 };
