@@ -2,18 +2,18 @@ import { getNote, getNotes } from "@/providers/http/notes";
 import { useQuery } from "@tanstack/react-query";
 
 export function useNotes() {
- return useQuery({
+  return useQuery({
     queryKey: ["notes"],
+    queryFn: getNotes,
     retry: 1,
-    queryFn: getNotes
- })   
+  });
 }
 
 export function useNote(id: number) {
-   return useQuery({
-      queryKey: [`note:${id}`],
-      retry: 1,
-      queryFn: () => getNote(id),
-      enabled: !!id
-   })
+  return useQuery({
+    queryKey: [`note:${id}`],
+    retry: 1,
+    queryFn: () => getNote(id),
+    enabled: !!id,
+  });
 }
