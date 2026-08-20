@@ -45,8 +45,20 @@ export const checkNoteGrammarErrorSchema = z.object({
   })
 })
 
+export const validationErrorSchema = z.object({
+  message: z.string(),
+  errors: z.object({
+    fields: z.record(
+      z.string(),
+      z.array(z.string()),
+    ),
+  }),
+});
+
+
 // Types inferred from Zod
 export type Note = z.infer<typeof noteSchema>;
 export type CreateNote = z.infer<typeof createNoteSchema>;
 export type CheckNoteGrammar = z.infer<typeof createNoteSchema>;
 export type CheckNoteGrammarError = z.infer<typeof checkNoteGrammarErrorSchema>
+export type ValidationError = z.infer<typeof validationErrorSchema>;

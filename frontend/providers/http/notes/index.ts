@@ -22,7 +22,7 @@ export const getRenderedNote = async (id: number): Promise<IRenderNote> => {
 export const createNote = async (content: string): Promise<string> => {
   const note = await apiClient(`api/notes`, {
     method: "POST",
-    body: JSON.stringify(content),
+    body: JSON.stringify({ content }),
   });
 
   return createNoteResponseSchema.parse(note).message;
@@ -33,7 +33,7 @@ export const checkNoteGrammar = async (
 ): Promise<ICheckNoteGrammar> => {
   const note = await apiClient(`api/check-grammar`, {
     method: "POST",
-    body: JSON.stringify(content),
+    body: JSON.stringify({ content }),
   });
 
   return checkNoteGrammarErrorSchema.parse(note).data;
