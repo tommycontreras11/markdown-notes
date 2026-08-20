@@ -13,8 +13,6 @@ export function CreateNoteForm() {
     event.preventDefault();
 
     mutate(content);
-
-    setContent("")
   }
 
   return (
