@@ -1,6 +1,7 @@
 import { IGrammarError, INote } from "./../../interfaces/note.interface.js";
 import { readData, saveToFile } from "./../../helper/file.js";
 import { grammarService } from "../../services/grammar/index.service.js";
+import { marked } from "marked"
 
 export const noteService = {
   async getAll() {
@@ -8,8 +9,17 @@ export const noteService = {
   },
   async getById(id: number) {
     const notes = await this.getAll();
+    
+    const note = notes.find((note: INote) => note.id == id)
 
-    return notes.find((note: INote) => note.id == id);
+    if(!note) return null
+
+    const html = await marked.parse(note.content)
+
+    return {
+      id: note.id,
+      html
+    };
   },
   async create(content: string) {
     const notes = await this.getAll();
