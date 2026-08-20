@@ -15,7 +15,7 @@ export function useCreateNote() {
   });
 }
 
-export function useCheckGrammar() {
+export function useCheckNoteGrammar() {
   return useMutation({
     mutationFn: checkNoteGrammar,
   });

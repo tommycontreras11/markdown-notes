@@ -1,11 +1,12 @@
 import { apiClient } from "../../client";
 import {
-  checkNoteGrammarErrorSchema,
+  CheckGrammarResponse,
+  checkGrammarResponseSchema,
   createNoteResponseSchema,
   noteRenderResponseSchema,
   notesResponseSchema,
 } from "@/schemas/note.schema";
-import { ICheckNoteGrammar, INote, IRenderNote } from "./interface";
+import { INote, IRenderNote } from "./interface";
 
 export const getNotes = async (): Promise<INote[]> => {
   const notes = await apiClient("api/notes");
@@ -30,11 +31,11 @@ export const createNote = async (content: string): Promise<string> => {
 
 export const checkNoteGrammar = async (
   content: string,
-): Promise<ICheckNoteGrammar> => {
-  const note = await apiClient(`api/check-grammar`, {
+): Promise<CheckGrammarResponse> => {
+  const response = await apiClient("api/notes/check-grammar", {
     method: "POST",
     body: JSON.stringify({ content }),
   });
 
-  return checkNoteGrammarErrorSchema.parse(note).data;
+  return checkGrammarResponseSchema.parse(response);
 };

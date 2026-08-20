@@ -30,35 +30,25 @@ export const checkNoteGrammarSchema = z.object({
   content: z.string().min(1, "Content cannot be empty"),
 });
 
-export const checkNoteGrammarErrorResponseSchema = z.object({
+const grammarErrorSchema = z.object({
   message: z.string(),
   shortMessage: z.string(),
   offset: z.number(),
   length: z.number(),
-  replacements: z.array(z.string()).optional()
-})
-
-export const checkNoteGrammarErrorSchema = z.object({
-  data: z.object({
-    valid: z.boolean(),
-    errors: z.array(checkNoteGrammarErrorResponseSchema).optional()
-  })
-})
-
-export const validationErrorSchema = z.object({
-  message: z.string(),
-  errors: z.object({
-    fields: z.record(
-      z.string(),
-      z.array(z.string()),
-    ),
-  }),
+  replacements: z.array(z.string()),
 });
 
+export const checkGrammarResponseSchema = z.object({
+  data: z.object({
+    valid: z.boolean(),
+    errors: z.array(grammarErrorSchema).optional(),
+  }),
+});
 
 // Types inferred from Zod
 export type Note = z.infer<typeof noteSchema>;
 export type CreateNote = z.infer<typeof createNoteSchema>;
 export type CheckNoteGrammar = z.infer<typeof createNoteSchema>;
-export type CheckNoteGrammarError = z.infer<typeof checkNoteGrammarErrorSchema>
-export type ValidationError = z.infer<typeof validationErrorSchema>;
+export type CheckGrammarResponse = z.infer<
+  typeof checkGrammarResponseSchema
+>;
