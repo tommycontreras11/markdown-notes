@@ -3,6 +3,11 @@ export interface INote {
   content: string;
 }
 
+export interface IRenderNote {
+  id: number;
+  html: string;
+}
+
 interface ICheckNoteGrammarResponse {
   message: string;
   shortMessage: string;

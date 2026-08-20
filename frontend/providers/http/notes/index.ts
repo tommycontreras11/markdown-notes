@@ -2,10 +2,10 @@ import { apiClient } from "../../client";
 import {
   checkNoteGrammarErrorSchema,
   createNoteResponseSchema,
-  noteResponseSchema,
+  noteRenderResponseSchema,
   notesResponseSchema,
 } from "@/schemas/note.schema";
-import { ICheckNoteGrammar, INote } from "./interface";
+import { ICheckNoteGrammar, INote, IRenderNote } from "./interface";
 
 export const getNotes = async (): Promise<INote[]> => {
   const notes = await apiClient("api/notes");
@@ -13,10 +13,10 @@ export const getNotes = async (): Promise<INote[]> => {
   return notesResponseSchema.parse(notes).data;
 };
 
-export const getNote = async (id: number): Promise<INote> => {
+export const getRenderedNote = async (id: number): Promise<IRenderNote> => {
   const note = await apiClient(`api/notes/render/${id}`);
 
-  return noteResponseSchema.parse(note).data;
+  return noteRenderResponseSchema.parse(note).data;
 };
 
 export const createNote = async (content: string): Promise<string> => {

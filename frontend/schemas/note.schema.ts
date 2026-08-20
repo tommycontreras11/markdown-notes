@@ -5,12 +5,17 @@ export const noteSchema = z.object({
   content: z.string(),
 });
 
+export const noteRenderSchema = z.object({
+  id: z.number(),
+  html: z.string(),
+});
+
 export const notesResponseSchema = z.object({
   data: z.array(noteSchema),
 });
 
-export const noteResponseSchema = z.object({
-  data: noteSchema
+export const noteRenderResponseSchema = z.object({
+  data: noteRenderSchema
 });
 
 export const createNoteSchema = z.object({
