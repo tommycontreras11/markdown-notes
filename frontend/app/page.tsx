@@ -16,19 +16,30 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-3xl p-8">
-      <h1 className="mb-6 text-3xl font-bold">
-        My Notes
-      </h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-3xl font-bold">My Notes</h1>
+
+        <div className="flex gap-3">
+          <Link
+            href="/notes/grammar-check"
+            className="rounded-lg border px-4 py-2 hover:bg-gray-50"
+          >
+            Check grammar
+          </Link>
+
+          <Link
+            href="/notes/new"
+            className="rounded-lg bg-black px-4 py-2 text-white hover:bg-gray-800"
+          >
+            New note
+          </Link>
+        </div>
+      </div>
 
       <div className="space-y-4">
         {notes?.map((note) => (
-          <article
-            key={note.id}
-            className="rounded-lg border p-4"
-          >
-            <h2 className="text-xl font-semibold">
-              Note #{note.id}
-            </h2>
+          <article key={note.id} className="rounded-lg border p-4">
+            <h2 className="text-xl font-semibold">Note #{note.id}</h2>
 
             <p className="mt-2 line-clamp-3 whitespace-pre-line text-gray-600">
               {note.content}
